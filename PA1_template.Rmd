@@ -46,8 +46,9 @@ Ignore the warning that comes after the code.
 
 ```{r Calculate steps and plot}
 totalStepsEachDate <- aggregate(Steps~Date,data = activity,FUN = sum,na.rm=TRUE)
-ggplot(data = activity, aes(Date, Steps)) +
-        stat_summary(fun.y = sum, geom = "bar") +
+ggplot(data = totalStepsEachDate, aes(Steps)) +
+        geom_histogram(bins = 35) +
+        ylab("Frequency (days)") +
         ggtitle("Total Steps on Each Day")
 stepMean<-mean(totalStepsEachDate$Steps)
 stepMedian<-median(totalStepsEachDate$Steps)
@@ -86,9 +87,10 @@ After imputation, the following plot of total steps on each day is generated fro
 
 ```{r Examine the new dataset}
 totalStepsEachDate2 <- aggregate(Steps~Date,data = activity2,FUN = sum,na.rm=TRUE)
-ggplot(data = activity2, aes(Date, Steps)) +
-        stat_summary(fun.y = sum, geom = "bar") +
-        ggtitle("Total Steps on Each Day with Imputation")
+ggplot(data = totalStepsEachDate2, aes(Steps)) +
+        geom_histogram(bins = 35) +
+        ylab("Frequency (days)") +
+        ggtitle("Total Steps on Each Day")
 stepMean2<-mean(totalStepsEachDate2$Steps)
 stepMedian2<-median(totalStepsEachDate2$Steps)
 ```
@@ -96,7 +98,7 @@ stepMedian2<-median(totalStepsEachDate2$Steps)
 Notice that there is no day with total 0 step (the minimum is `r min(totalStepsEachDate2$Steps)`).
 
 The mean of total steps on each day is `r sprintf("%.2f",stepMean2)` steps.
-The median of total steps on each day is `r sprintf("%.2f",stepMedian2)` steps. Our method of imputation does not change the aforementioned statistics by much. However, the estimate of total daily number of steps on days with previously missing values are all the same i.e. `r sprintf("%.2f",sum(averageDailySteps$Steps))` steps.
+The median of total steps on each day is `r sprintf("%.2f",stepMedian2)` steps. Our method of imputation does not change the aforementioned statistics by much. However, the estimate of total daily number of steps on days with previously missing values are all the same i.e. `r sprintf("%.2f",sum(averageDailySteps$Steps))` steps. This results in more days being counted in the bin with the average value in it.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?

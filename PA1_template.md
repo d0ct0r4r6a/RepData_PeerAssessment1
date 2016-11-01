@@ -83,13 +83,10 @@ Ignore the warning that comes after the code.
 
 ```r
 totalStepsEachDate <- aggregate(Steps~Date,data = activity,FUN = sum,na.rm=TRUE)
-ggplot(data = activity, aes(Date, Steps)) +
-        stat_summary(fun.y = sum, geom = "bar") +
+ggplot(data = totalStepsEachDate, aes(Steps)) +
+        geom_histogram(bins = 35) +
+        ylab("Frequency (days)") +
         ggtitle("Total Steps on Each Day")
-```
-
-```
-## Warning: Removed 2304 rows containing non-finite values (stat_summary).
 ```
 
 ![plot of chunk Calculate steps and plot](figure/Calculate steps and plot-1.png)
@@ -146,9 +143,10 @@ After imputation, the following plot of total steps on each day is generated fro
 
 ```r
 totalStepsEachDate2 <- aggregate(Steps~Date,data = activity2,FUN = sum,na.rm=TRUE)
-ggplot(data = activity2, aes(Date, Steps)) +
-        stat_summary(fun.y = sum, geom = "bar") +
-        ggtitle("Total Steps on Each Day with Imputation")
+ggplot(data = totalStepsEachDate2, aes(Steps)) +
+        geom_histogram(bins = 35) +
+        ylab("Frequency (days)") +
+        ggtitle("Total Steps on Each Day")
 ```
 
 ![plot of chunk Examine the new dataset](figure/Examine the new dataset-1.png)
@@ -161,7 +159,7 @@ stepMedian2<-median(totalStepsEachDate2$Steps)
 Notice that there is no day with total 0 step (the minimum is 41).
 
 The mean of total steps on each day is 10766.19 steps.
-The median of total steps on each day is 10766.19 steps. Our method of imputation does not change the aforementioned statistics by much. However, the estimate of total daily number of steps on days with previously missing values are all the same i.e. 10766.19 steps.
+The median of total steps on each day is 10766.19 steps. Our method of imputation does not change the aforementioned statistics by much. However, the estimate of total daily number of steps on days with previously missing values are all the same i.e. 10766.19 steps. This results in more days being counted in the bin with the average value in it.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
